@@ -1,27 +1,133 @@
-# Fine-Tuning T5 for Generative Question Answering
+# Fine-Tuning T5-base for Generative Question Answering
 
-This repository contains an end-to-end implementation of **generative question answering** using the **T5-base** encoder–decoder Transformer model. The model is fine-tuned on the **SQuAD (Stanford Question Answering Dataset)** and evaluated using standard QA metrics.
+## Group 3 – Deep Learning
 
-The project demonstrates the complete pipeline, including data preprocessing, model training, quantitative evaluation, and qualitative inference examples.
+| Name                 | Student ID  |
+| -------------------- | ----------- |
+| Rahmanda Afebrio Yuris Soesatyo	|1103223024|
+|Rafly Fasha Purnomo Putra	|1103223050|
+
+---
+
+## Overview
+
+This project focuses on fine-tuning **T5-base**, an encoder–decoder Transformer model, for **generative question answering** using the **SQuAD (Stanford Question Answering Dataset)**.
+Unlike extractive QA approaches, the model is trained to **generate answer text** directly given a question and its corresponding context.
+
+All stages of the workflow—including preprocessing, model training, quantitative evaluation, and qualitative analysis—are implemented within a single Jupyter Notebook.
 
 ---
 
-## Group 6 – Deep Learning
+## Pre-trained Model
 
-| Nama | NIM |
-|---------|------|
-| Rahmanda Afebrio Yuris Soesatyo | 1103223024 |
-| Rafly Fasha Purnomo Putra | 1103223050 |
+The fine-tuned model artifacts are available at the following link:
+
+**Final Model:**
+[https://drive.google.com/drive/folders/1U6mfZZqYC82-enh_OpDFlC8jBpXF2htB](https://drive.google.com/drive/folders/1U6mfZZqYC82-enh_OpDFlC8jBpXF2htB)
+
+The directory contains the fine-tuned T5 model and tokenizer required for inference.
 
 ---
-## Task Description
 
-**Task:** Encoder–Decoder (Seq2Seq)
-**Model:** T5-base
-**Dataset:** SQuAD
-**Task Type:** Generative Question Answering
+## Dataset
 
-Unlike classification-based QA, this task requires the model to **generate answer text** given a question and its corresponding context.
+The dataset used in this project is **SQuAD (Stanford Question Answering Dataset)**.
+
+* **Task**: Generative Question Answering
+* **Source**: Hugging Face
+* **Dataset Link**: [https://huggingface.co/datasets/rajpurkar/squad](https://huggingface.co/datasets/rajpurkar/squad)
+* **Input**: Question + context paragraph
+* **Output**: Answer text span
+
+---
+
+## Objectives
+
+* Fine-tune an encoder–decoder Transformer model for generative QA
+* Apply sequence-to-sequence learning using T5-base
+* Generate textual answers from question–context pairs
+* Evaluate model performance using standard QA metrics (Exact Match and F1)
+* Analyze model behavior through qualitative inference examples
+
+---
+
+## Model and Dataset
+
+### Model
+
+* **Base Model**: t5-base
+* **Architecture**: Encoder–Decoder Transformer (Seq2Seq)
+* **Pre-training Objective**: Text-to-text transfer learning
+* **Fine-Tuning Approach**: Full fine-tuning on QA task
+
+### Dataset
+
+* **Dataset**: SQuAD
+* **Task Type**: Generative Question Answering
+* **Answer Type**: Short factual text answers
+
+---
+
+## Methodology
+
+### Input Formatting
+
+Each data sample is reformatted following the T5 convention:
+
+```
+question: <question> context: <context>
+```
+
+The target output corresponds to the ground truth answer text provided in the dataset.
+
+### Training Strategy
+
+The model is fine-tuned using a sequence-to-sequence objective, where the encoder processes the input prompt and the decoder generates the answer token by token.
+Training is performed on a subset of the dataset to ensure computational efficiency.
+
+---
+
+## Training Configuration
+
+| Parameter          | Value      |
+| ------------------ | ---------- |
+| Training Samples   | 1000       |
+| Validation Samples | 100        |
+| Epochs             | 2          |
+| Batch Size         | 8          |
+| Learning Rate      | 2e-5       |
+| Optimizer          | AdamW      |
+| Scheduler          | Linear     |
+| Max Input Length   | 512        |
+| Max Output Length  | 64         |
+| Precision          | FP16 (GPU) |
+
+---
+
+## Evaluation Results
+
+Evaluation was conducted on the validation subset using standard QA metrics.
+
+| Metric               | Score      |
+| -------------------- | ---------- |
+| **Exact Match (EM)** | **80.00%** |
+| **F1 Score**         | **83.05%** |
+
+### Interpretation
+
+* **Exact Match** reflects the percentage of predictions that exactly match the reference answer
+* **F1 Score** captures partial overlap between generated and reference answers
+
+These results indicate that the model is able to generate accurate and contextually relevant answers despite being trained on a limited subset of data.
+
+---
+
+## Qualitative Analysis
+
+Qualitative evaluation demonstrates that the model performs well on factual questions with clearly stated answers in the context.
+The model is able to distinguish between similar entities (e.g., team names, locations, and awards) and generate precise answers.
+
+Errors typically occur when multiple plausible answer spans exist or when the context contains highly similar named entities.
 
 ---
 
@@ -36,90 +142,17 @@ finetuning-t5-question-answering/
 
 ---
 
-## Installation
-
-Clone the repository and install the required dependencies:
-
-```bash
-pip install -r requirements.txt
-```
-
-> **Note:** A GPU is recommended for faster training and inference.
-
----
-
-## Methodology
-
-The workflow implemented in this project consists of the following steps:
-
-1. **Dataset Loading**
-
-   * Load the SQuAD dataset using Hugging Face Datasets.
-
-2. **Data Preprocessing**
-
-   * Format inputs as:
-
-     ```
-     question: <question> context: <context>
-     ```
-   * Tokenize inputs and target answers using the T5 tokenizer.
-
-3. **Model Fine-Tuning**
-
-   * Fine-tune the pre-trained T5-base model using `Seq2SeqTrainer`.
-   * Training is performed on a subset of the dataset to ensure computational efficiency.
-
-4. **Evaluation**
-
-   * Quantitative evaluation using:
-
-     * **Exact Match (EM)**
-     * **F1 Score**
-   * Qualitative evaluation through sample inference results.
-
-5. **Manual Question Answering**
-
-   * Demonstration of model inference using custom user-provided context and questions.
-
----
-
-## Evaluation Results
-
-| Metric      | Score |
-| ----------- | ----- |
-| Exact Match | 80.00 |
-| F1 Score    | 83.05 |
-
-These results indicate that the fine-tuned model is able to generate accurate and contextually relevant answers on the validation dataset.
-
----
-
-## Qualitative Examples
-
-Several inference examples are provided in the notebook to illustrate how the model answers different questions from distinct contexts. The predictions are compared directly with ground truth answers to assess correctness qualitatively.
-
----
-
-## Dependencies
-
-Main libraries used in this project:
-
-* PyTorch
-* Hugging Face Transformers
-* Hugging Face Datasets
-* Evaluate
-* NumPy
-* Pandas
-* Matplotlib
-* Seaborn
-* TQDM
-
-All dependencies are listed in `requirements.txt`.
-
-
----
-
 ## Notes
 
-This project is intended for academic and educational purposes, demonstrating practical usage of encoder–decoder Transformer models for generative question answering tasks.
+* Evaluation metrics are computed using the official SQuAD evaluation protocol
+* Training is performed on a subset of the dataset for efficiency
+* Results may vary depending on decoding strategy and random seed
+
+---
+
+## Conclusion
+
+This project demonstrates that fine-tuning **T5-base** for generative question answering can achieve strong performance on the SQuAD dataset, even with limited training data.
+The encoder–decoder architecture effectively models the relationship between questions and context, producing accurate and meaningful answer text.
+
+This implementation highlights the effectiveness of sequence-to-sequence Transformers for QA tasks in practical, resource-constrained settings.
