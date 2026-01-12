@@ -1,6 +1,6 @@
 # Fine-Tuning T5-base for Generative Question Answering
 
-## Group 3 – Deep Learning
+## Group 6 – Deep Learning
 
 | Name                 | Student ID  |
 | -------------------- | ----------- |
