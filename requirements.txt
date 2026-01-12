@@ -1,0 +1,11 @@
+torch
+transformers[torch]
+datasets
+evaluate
+numpy
+pandas
+tqdm
+sentencepiece
+accelerate
+matplotlib
+seaborn
