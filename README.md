@@ -106,7 +106,7 @@ Training is performed on a subset of the dataset to ensure computational efficie
 
 ## Evaluation Results
 
-Evaluation was conducted on the validation subset using standard QA metrics.
+Evaluation was conducted on the validation subset using standard QA metrics
 
 | Metric               | Score      |
 | -------------------- | ---------- |
